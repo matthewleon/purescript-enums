@@ -243,18 +243,24 @@ instance boundedEnumTuple :: (BoundedEnum a, BoundedEnum b) => BoundedEnum (Tupl
     from (Cardinality cb) (Tuple a b) = fromEnum a * cb + fromEnum b
 
 -- | Runs in `O(n)` where `n` is `fromEnum top`
+-- |
+-- | For a more efficient version, check `Data.Enum.Index`
 defaultCardinality :: forall a. Bounded a => Enum a => Cardinality a
 defaultCardinality = Cardinality $ defaultCardinality' 1 (bottom :: a) where
   defaultCardinality' i = maybe i (defaultCardinality' $ i + 1) <<< succ
 
-  -- | Runs in `O(n)` where `n` is `fromEnum a`
+-- | Runs in `O(n)` where `n` is `fromEnum a`
+-- |
+-- | For a more efficient version, check `Data.Enum.Index`
 defaultToEnum :: forall a. Bounded a => Enum a => Int -> Maybe a
 defaultToEnum n
   | n < 0 = Nothing
   | n == 0 = Just bottom
   | otherwise = defaultToEnum (n - 1) >>= succ
 
-  -- | Runs in `O(n)` where `n` is `fromEnum a`
+-- | Runs in `O(n)` where `n` is `fromEnum a`
+-- |
+-- | For a more efficient version, check `Data.Enum.Index`
 defaultFromEnum :: forall a. Enum a => a -> Int
 defaultFromEnum = maybe 0 (\prd -> defaultFromEnum prd + 1) <<< pred
 

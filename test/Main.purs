@@ -7,6 +7,9 @@ import Control.Monad.Eff.Console (CONSOLE)
 
 import Test.Assert (ASSERT)
 import Test.Data.Enum (testEnum)
+import Test.Data.Enum.Index (testIndex)
 
 main :: Eff (console :: CONSOLE, assert :: ASSERT) Unit
-main = testEnum
+main = do
+  testEnum
+  testIndex
