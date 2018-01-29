@@ -6,7 +6,7 @@ import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Data.Array.NonEmpty (toArray)
 import Data.Enum (class BoundedEnum, class Enum, Cardinality(..), cardinality, fromEnum, toEnum)
-import Data.Enum.Index (Index, cardinalityFromIndex, fromEnumFromIndex, index, toEnumFromIndex, toNonEmptyArray)
+import Data.Enum.Index (Index, defaultCardinality, defaultFromEnum, index, defaultToEnum, toNonEmptyArray)
 import Data.Maybe (Maybe(..))
 import Test.Assert (ASSERT, assert)
 
@@ -33,9 +33,9 @@ instance boundedT :: Bounded T where
   top = E
 
 instance boundedEnumT :: BoundedEnum T where
-  cardinality = cardinalityFromIndex indexT
-  toEnum = toEnumFromIndex indexT
-  fromEnum = fromEnumFromIndex indexT
+  cardinality = defaultCardinality indexT
+  toEnum = defaultToEnum indexT
+  fromEnum = defaultFromEnum indexT
 
 indexT :: Index T
 indexT = index
@@ -45,17 +45,17 @@ testIndex = do
   log "toNonEmptyArray"
   assert $ toArray (toNonEmptyArray indexT) == [A, B, C, D, E]
 
-  log "cardinalityFromIndex"
+  log "defaultCardinality"
   assert $ cardinality == (Cardinality 5 :: Cardinality T)
 
-  log "toEnumFromIndex"
+  log "defaultToEnum"
   assert $ toEnum 0 == Just A
   assert $ toEnum 1 == Just B
   assert $ toEnum 2 == Just C
   assert $ toEnum 3 == Just D
   assert $ toEnum 4 == Just E
 
-  log "fromEnumFromIndex"
+  log "defaultFromEnum"
   assert $ fromEnum A == 0
   assert $ fromEnum B == 1
   assert $ fromEnum C == 2

@@ -2,9 +2,9 @@ module Data.Enum.Index
   ( Index
   , index
   , toNonEmptyArray
-  , cardinalityFromIndex
-  , toEnumFromIndex
-  , fromEnumFromIndex
+  , defaultCardinality
+  , defaultToEnum
+  , defaultFromEnum
   ) where
 
 import Prelude
@@ -23,16 +23,16 @@ toNonEmptyArray :: forall a. Index a -> NonEmptyArray a
 toNonEmptyArray (Index xs) = xs
 
 -- | Runs in `O(1)`
-cardinalityFromIndex :: forall a. Index a -> Cardinality a
-cardinalityFromIndex = Cardinality <<< length <<< toNonEmptyArray
+defaultCardinality :: forall a. Index a -> Cardinality a
+defaultCardinality = Cardinality <<< length <<< toNonEmptyArray
 
 -- | Runs in `O(1)`
-toEnumFromIndex :: forall a. Index a -> Int -> Maybe a
-toEnumFromIndex index' i = toNonEmptyArray index' !! i
+defaultToEnum :: forall a. Index a -> Int -> Maybe a
+defaultToEnum index' i = toNonEmptyArray index' !! i
 
 -- | Runs in `O(logn)`
-fromEnumFromIndex :: forall a. Ord a => Index a -> a -> Int
-fromEnumFromIndex (Index xs) val = binSearch 0 (length xs - 1)
+defaultFromEnum :: forall a. Ord a => Index a -> a -> Int
+defaultFromEnum (Index xs) val = binSearch 0 (length xs - 1)
   where
   binSearch low high =
     if (xs !! mid > Just val) then binSearch low $ mid - 1
