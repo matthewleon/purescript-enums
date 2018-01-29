@@ -13,12 +13,15 @@ import Data.Array.NonEmpty (NonEmptyArray, fromNonEmpty, length, (!!))
 import Data.Enum (class Enum, Cardinality(..), upFromIncluding)
 import Data.Maybe (Maybe(Just))
 
+-- | An `Index` is a structure allowing us to create efficient default
+-- | method implementations for `BoundedEnum`.
 newtype Index a = Index (NonEmptyArray a)
 
--- smart constructor for Index
+-- | Construct an `Index`.
 index :: forall a. Bounded a => Enum a => Index a
 index = Index $ fromNonEmpty $ upFromIncluding bottom
 
+-- | Convert an `Index` to a `NonEmptyArray`.
 toNonEmptyArray :: forall a. Index a -> NonEmptyArray a
 toNonEmptyArray (Index xs) = xs
 
